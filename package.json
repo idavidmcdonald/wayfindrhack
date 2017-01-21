@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "hello-http.js",
+  "scripts": {
+    "start": "node hello-http.js"
+  },
   "dependencies": {
     "bleacon": "^0.5.1",
     "http": "^0.0.0"
