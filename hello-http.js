@@ -76,7 +76,7 @@ var server = http.createServer(function (request, response) {
 
     var player = require('play-sound')(opts = {})
 
-    player.play('./node_modules/play-sound/sounds/'+object, { afplay: ['-v', volume ] /* lower volume for afplay on OSX */ }, function(err){
+    player.play('./play-sound/sounds/'+object, { afplay: ['-v', volume ] /* lower volume for afplay on OSX */ }, function(err){
     });
 
     console.log(bleacon['proximity'])
