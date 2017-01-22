@@ -34,6 +34,8 @@ var beaconTypeToInstruction = [
 	"error.mp3"
 ]
 
+var beaconType = 1
+
 function getVolumeFromDistance (distance) {
 	var volume;
 
@@ -84,8 +86,6 @@ app.get('/', function (req, res) {
   Bleacon.on('discover', function(bleacon) {
     distance = bleacon['accuracy'];
 
-    var beaconType = 1
-
     object = beaconTypeToSound[beaconType - 1];
 
     volume = getVolumeFromDistance(distance)
@@ -109,8 +109,6 @@ app.get('/info', function (req, res) {
 
   Bleacon.on('discover', function(bleacon) {
     distance = bleacon['accuracy'];
-
-    var beaconType = 1
 
     object = beaconTypeToSound[beaconType - 1];
 
