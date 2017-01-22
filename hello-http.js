@@ -22,7 +22,7 @@ var beaconTypeToSound = [
 ]
 
 var beaconTypeToInstruction = [
-	"the gate in is straight ahead",
+	"the entry gate is straight ahead",
 	"stairs_up.wav",
 	"stairs_down.wav",
 	"flat_bit.wav",
@@ -95,7 +95,8 @@ app.get('/', function (req, res) {
     }
 
     log(bleacon, distance, volume)
-  	res.end('distance is ' + distance + ', volume is ' + volume)
+    var link = "<a href='/info'>Click to hear instruction</a>";
+  	res.end('<html><body>distance is ' + distance + ', volume is ' + volume + '. ' + link + '</body></html>');
   })
 })
 
@@ -115,13 +116,14 @@ app.get('/info', function (req, res) {
 
     volume = getVolumeFromDistance(distance)
     if (play) {
-    	// playSound(object, volume);
     	say.speak(beaconTypeToInstruction[beaconType - 1]);
     	play = false;
     }
 
     log(bleacon, distance, volume)
-  	res.end('distance is ' + distance + ', volume is ' + volume)
+  	var link = "<a href='/'>Click to hear sound</a>";
+  	res.end('<html><body>distance is ' + distance + ', volume is ' + volume + '. ' + link + '</body></html>');
+
   })
 })
 
