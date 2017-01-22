@@ -9,6 +9,7 @@ var minor = 0; // 0 - 65535
 // Configure our HTTP server to respond with Hello World to all requests.
 var server = http.createServer(function (request, response) {
   var distance;
+  var playSound = true;
   Bleacon.startScanning([uuid]);
   // Bleacon.startScanning([uuid], [major], [minor]);
 
@@ -76,9 +77,12 @@ var server = http.createServer(function (request, response) {
 
     var player = require('play-sound')(opts = {})
 
-    player.play('./play-sound/sounds/'+object, { afplay: ['-v', volume ] /* lower volume for afplay on OSX */ }, function(err){
-    });
-
+    if (playSound) {
+    	player.play('./sounds/'+object, { afplay: ['-v', volume ] /* lower volume for afplay on OSX */ }, function(err){
+    	});
+    	playSound = false;
+    }
+    
     console.log(bleacon['proximity'])
     console.log(bleacon['rssi']);
     console.log('>>>>>>>>>>>>');
