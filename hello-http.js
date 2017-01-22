@@ -2,23 +2,37 @@ var http = require('http');
 var Bleacon = require('Bleacon')
 var express = require('express')
 var player = require('play-sound')(opts = {})
+var say = require('say');
 
 var app = express()
 var uuid = '8492e75f4fd6469db132043fe94921d8';
 var major = 0; // 0 - 65535
 var minor = 0; // 0 - 65535
 var beaconTypeToSound = [
-    	"gate_in.wav",
-    	"stairs_up.wav",
-    	"stairs_down.wav",
-    	"flat_bit.wav",
-    	"lift.wav",
-    	"escalator.wav",
-    	"end_of_stairs_escalator.wav",
-    	"notice.wav",
-    	"destination.wav",
-    	"error.mp3"
-    ]
+	"gate_in.wav",
+	"stairs_up.wav",
+	"stairs_down.wav",
+	"flat_bit.wav",
+	"lift.wav",
+	"escalator.wav",
+	"end_of_stairs_escalator.wav",
+	"notice.wav",
+	"destination.wav",
+	"error.mp3"
+]
+
+var beaconTypeToInstruction = [
+	"the gate in is straight ahead",
+	"stairs_up.wav",
+	"stairs_down.wav",
+	"flat_bit.wav",
+	"lift.wav",
+	"escalator.wav",
+	"end_of_stairs_escalator.wav",
+	"notice.wav",
+	"destination.wav",
+	"error.mp3"
+]
 
 function getVolumeFromDistance (distance) {
 	var volume;
@@ -77,6 +91,32 @@ app.get('/', function (req, res) {
     volume = getVolumeFromDistance(distance)
     if (play) {
     	playSound(object, volume);
+    	play = false;
+    }
+
+    log(bleacon, distance, volume)
+  	res.end('distance is ' + distance + ', volume is ' + volume)
+  })
+})
+
+app.get('/info', function (req, res) {
+  var volume;
+  var distance;
+  var play = true;
+  Bleacon.startScanning([uuid]);
+  // Bleacon.startScanning([uuid], [major], [minor]);
+
+  Bleacon.on('discover', function(bleacon) {
+    distance = bleacon['accuracy'];
+
+    var beaconType = 1
+
+    object = beaconTypeToSound[beaconType - 1];
+
+    volume = getVolumeFromDistance(distance)
+    if (play) {
+    	// playSound(object, volume);
+    	say.speak(beaconTypeToInstruction[beaconType - 1]);
     	play = false;
     }
 
